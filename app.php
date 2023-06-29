@@ -1,6 +1,6 @@
 <?php
             
-            /*EJERCICIO 3*/
+            /*EJERCICIO 4*/
 
              
             /*
@@ -28,10 +28,20 @@
 
             /*
 
-                define("COLORS", ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"]);
+                declare(strict_types=1);
 
-                function colorCode(string $color): int{
-                    return array_search($color, COLORS);
+                function distance(string $strandA, string $strandB): int {
+
+                    if (strlen($strandA) !== strlen($strandB)) {
+                        throw new InvalidArgumentException('DNA strands must be of equal length.');
+                    } else {
+                        $distance = 0;
+                        for ($i = 0; $i < strlen($strandA); $i++) {
+                            if ($strandA[$i] !== $strandB[$i])
+                                $distance++;
+                        }
+                    }
+                    return $distance;
                 }
 
             */
