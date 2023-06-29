@@ -1,6 +1,6 @@
 <?php
             
-            /*EJERCICIO 2*/
+            /*EJERCICIO 3*/
 
              
             /*
@@ -25,11 +25,13 @@
                 * To disable strict typing, comment out the directive below.
             */
 
+
             /*
 
-                function reverseString(string $text): string
-                {
-                    return strrev($text);
+                define("COLORS", ["black", "brown", "red", "orange", "yellow", "green", "blue", "violet", "grey", "white"]);
+
+                function colorCode(string $color): int{
+                    return array_search($color, COLORS);
                 }
 
             */
