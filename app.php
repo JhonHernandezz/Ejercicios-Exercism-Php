@@ -1,6 +1,6 @@
 <?php
             
-            /*EJERCICIO 8*/
+            /*EJERCICIO 9*/
 
              
             /*
@@ -29,28 +29,26 @@
             /*
 
                 declare(strict_types=1);
-                class HighScores {
-                    public $scores;
-                    public $latest;
-                    public $personalBest;
-                    public $personalTopThree;
-
-                    public function __construct(array $scores){
-                        $this->personalTopThree = array();
-                        $this->scores = $scores;
-                        $this->latest = $scores[sizeOf($scores) -1];
-                        $this->personalBest = max($scores);
-                        $this->getPersonalTopThree();
-                        //throw new \BadFunctionCallException("Implement the HighScores class");
+                class Bob{
+                    public function respondTo(string $message): string {
+                        $message = trim($message);
+                        // Silence
+                        if(empty($message)) {
+                            return 'Fine. Be that way!';
+                        }
+                        // Shouting
+                        if(mb_strtoupper($message) === $message && mb_strtolower($message) !== $message) {
+                            if (mb_substr($message, -1) === '?') {
+                                return 'Calm down, I know what I\'m doing!';
+                            }
+                            return 'Whoa, chill out!';
+                        }
+                        // Question
+                        if (mb_substr($message, -1) === '?') {
+                            return 'Sure.'; 
+                        }
+                        return 'Whatever.';
                     }
-
-                    private function getPersonalTopThree(){
-                        $tmp = $this->scores;
-                        rsort($tmp);
-                        for($i = 0; $i < 3 and $i < sizeof($tmp); $i++){
-                            array_push($this->personalTopThree, $tmp[$i]);
-                        } 
-                    } 
                 }
 
             */
