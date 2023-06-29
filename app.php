@@ -1,6 +1,6 @@
 <?php
             
-            /*EJERCICIO 7*/
+            /*EJERCICIO 8*/
 
              
             /*
@@ -29,91 +29,28 @@
             /*
 
                 declare(strict_types=1);
-                class SimpleCipher {
-                    public string $key;
-                    private const ALPHABETS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k','l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+                class HighScores {
+                    public $scores;
+                    public $latest;
+                    public $personalBest;
+                    public $personalTopThree;
 
-                    public function __construct(string $key = 'hallohallo')
-                    {
-                        if (is_null($key)) {
-                            $key = $this->generateRandomString();
-                        }
-                        if (strtolower($key) !== $key || !ctype_alpha($key) || $key === '') {
-                            throw new \InvalidArgumentException('hallo');
-                        }
-                        $this->key = $key;
+                    public function __construct(array $scores){
+                        $this->personalTopThree = array();
+                        $this->scores = $scores;
+                        $this->latest = $scores[sizeOf($scores) -1];
+                        $this->personalBest = max($scores);
+                        $this->getPersonalTopThree();
+                        //throw new \BadFunctionCallException("Implement the HighScores class");
                     }
-                    private function generateRandomString(): string {
-                        $characters = 'abcdefghijklmnopqrstuvwxyz';
-                        $randomString = '';
-                        for ($i = 0; $i < 100; $i++) {
-                            $randomString .= $characters[rand(0, 25)];
-                        }
-                        return $randomString;
-                    }
-                    public function encode(string $plainText): string
-                    {
-                        $plainArray = [];
-                        $position = 0;
-                        while(count($plainArray) < strlen($plainText)) {
-                            $plainArray[] = substr($plainText, $position, 1);
-                            $position++;
-                        }
-                        $encoderArray = [];
-                        foreach ($plainArray as $position => $plainChar) {
-                            $encodedArray[] = $this->getEncodedChar($plainChar, $position);
-                        }
-                        return implode('', $encodedArray);
-                    }
-                    private function getEncodedChar(string $plainChar, int $position): string
-                    {
-                        if (!ctype_alpha($plainChar)) {
-                            return $plainChar;
-                        }
-                        while ($position >= strlen($this->key)) {
-                            $position -= strlen($this->key);
-                        }
-                        $cipherLetter = substr($this->key, $position, 1);
-                        $letterKeys = array_flip(self::ALPHABETS);
-                        $plainCharIsUpperCase = strtoupper($plainChar) === $plainChar;
-                        $lowerChar = strtolower($plainChar);
-                        $cipherLetterKey = $letterKeys[$cipherLetter];
-                        $charKey = $letterKeys[$lowerChar];
-                        $encodedChar = self::ALPHABETS[($cipherLetterKey + $charKey) % 26];
-                        return $plainCharIsUpperCase ? strtoupper($encodedChar) : $encodedChar;
-                    }
-                    private function getDecodedChar(string $encodedChar, int $position): string
-                    {
-                        if (!ctype_alpha($encodedChar)) {
-                            return $encodedChar;
-                        }
-                        while ($position >= strlen($this->key)) {
-                            $position -= strlen($this->key);
-                        }
-                        $cipherLetter = substr($this->key, $position, 1);
-                        $letterKeys = array_flip(self::ALPHABETS);
-                        $encodedCharIsUpperCase = strtoupper($encodedChar) === $encodedChar;
-                        $lowerChar = strtolower($encodedChar);
-                        $cipherLetterKey = $letterKeys[$cipherLetter];
-                        $charKey = $letterKeys[$lowerChar];
-                        $dencodedChar = self::ALPHABETS[($charKey - $cipherLetterKey) % 26];
 
-                        return $encodedCharIsUpperCase ? strtoupper($dencodedChar) : $dencodedChar;
-                    }
-                    public function decode(string $cipherText): string
-                    {
-                        $cipherArray = [];
-                        $position = 0;
-                        while(count($cipherArray) < strlen($cipherText)) {
-                            $cipherArray[] = substr($cipherText, $position, 1);
-                            $position++;
-                        }
-                        $decoderArray = [];
-                        foreach ($cipherArray as $position => $cipherChar) {
-                            $decodedArray[] = $this->getDecodedChar($cipherChar, $position);
-                        }
-                        return implode('', $decodedArray);
-                    }
+                    private function getPersonalTopThree(){
+                        $tmp = $this->scores;
+                        rsort($tmp);
+                        for($i = 0; $i < 3 and $i < sizeof($tmp); $i++){
+                            array_push($this->personalTopThree, $tmp[$i]);
+                        } 
+                    } 
                 }
 
             */
