@@ -1,6 +1,6 @@
 <?php
             
-            /*EJERCICIO 6*/
+            /*EJERCICIO 7*/
 
              
             /*
@@ -29,57 +29,90 @@
             /*
 
                 declare(strict_types=1);
-                class Tournament {
-                    public function tally($scores) {
-                        $score_board = array("Team                           | MP |  W |  D |  L |  P");
-                        $line_length = strlen($score_board[0]);
-                        $lines = explode("\n", $scores);
-                        $tally = array();
-                        foreach ($lines as $line) {
-                            if (!empty($line)) {
-                                list($team1, $team2, $outcome) = explode(";", $line);
-                                switch ($outcome) {
-                                    case "win":
-                                        $home = array(1, 1, 0, 0, 3);
-                                        $away = array(1, 0, 0, 1, 0);
-                                        break;
-                                    case "loss":
-                                        $home = array(1, 0, 0, 1, 0);
-                                        $away = array(1, 1, 0, 0, 3);
-                                        break;
-                                    case "draw":
-                                        $home = array(1, 0, 1, 0, 1);
-                                        $away = $home;
-                                        break;
-                                }
-                            
-                                if (array_key_exists($team1, $tally)) {
-                                    for ($i = 0; $i < 5; $i++) {
-                                        $tally[$team1][$i] += $home[$i];
-                                    }
-                                } else {
-                                    $tally[$team1] = $home;
-                                }
-                    
-                                if (array_key_exists($team2, $tally)) {
-                                    for ($i = 0; $i < 5; $i++) {
-                                        $tally[$team2][$i] += $away[$i];
-                                    }
-                                } else {
-                                    $tally[$team2] = $away;
-                                }
-                            }
+                class SimpleCipher {
+                    public string $key;
+                    private const ALPHABETS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k','l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+
+                    public function __construct(string $key = 'hallohallo')
+                    {
+                        if (is_null($key)) {
+                            $key = $this->generateRandomString();
                         }
-                        if (count($tally) > 0) {
-                            ksort($tally);
-                            arsort($tally);
-                            foreach ($tally as $key => $v) {
-                                $tally_row = "|  {$v[0]} |  {$v[1]} |  {$v[2]} |  {$v[3]} |  {$v[4]}";
-                                $padding = str_repeat(" ", $line_length - (strlen($key) +                                 strlen($tally_row)));
-                                array_push($score_board, $key . $padding . $tally_row);
-                            }            
+                        if (strtolower($key) !== $key || !ctype_alpha($key) || $key === '') {
+                            throw new \InvalidArgumentException('hallo');
                         }
-                        return implode("\n", $score_board);
+                        $this->key = $key;
+                    }
+                    private function generateRandomString(): string {
+                        $characters = 'abcdefghijklmnopqrstuvwxyz';
+                        $randomString = '';
+                        for ($i = 0; $i < 100; $i++) {
+                            $randomString .= $characters[rand(0, 25)];
+                        }
+                        return $randomString;
+                    }
+                    public function encode(string $plainText): string
+                    {
+                        $plainArray = [];
+                        $position = 0;
+                        while(count($plainArray) < strlen($plainText)) {
+                            $plainArray[] = substr($plainText, $position, 1);
+                            $position++;
+                        }
+                        $encoderArray = [];
+                        foreach ($plainArray as $position => $plainChar) {
+                            $encodedArray[] = $this->getEncodedChar($plainChar, $position);
+                        }
+                        return implode('', $encodedArray);
+                    }
+                    private function getEncodedChar(string $plainChar, int $position): string
+                    {
+                        if (!ctype_alpha($plainChar)) {
+                            return $plainChar;
+                        }
+                        while ($position >= strlen($this->key)) {
+                            $position -= strlen($this->key);
+                        }
+                        $cipherLetter = substr($this->key, $position, 1);
+                        $letterKeys = array_flip(self::ALPHABETS);
+                        $plainCharIsUpperCase = strtoupper($plainChar) === $plainChar;
+                        $lowerChar = strtolower($plainChar);
+                        $cipherLetterKey = $letterKeys[$cipherLetter];
+                        $charKey = $letterKeys[$lowerChar];
+                        $encodedChar = self::ALPHABETS[($cipherLetterKey + $charKey) % 26];
+                        return $plainCharIsUpperCase ? strtoupper($encodedChar) : $encodedChar;
+                    }
+                    private function getDecodedChar(string $encodedChar, int $position): string
+                    {
+                        if (!ctype_alpha($encodedChar)) {
+                            return $encodedChar;
+                        }
+                        while ($position >= strlen($this->key)) {
+                            $position -= strlen($this->key);
+                        }
+                        $cipherLetter = substr($this->key, $position, 1);
+                        $letterKeys = array_flip(self::ALPHABETS);
+                        $encodedCharIsUpperCase = strtoupper($encodedChar) === $encodedChar;
+                        $lowerChar = strtolower($encodedChar);
+                        $cipherLetterKey = $letterKeys[$cipherLetter];
+                        $charKey = $letterKeys[$lowerChar];
+                        $dencodedChar = self::ALPHABETS[($charKey - $cipherLetterKey) % 26];
+
+                        return $encodedCharIsUpperCase ? strtoupper($dencodedChar) : $dencodedChar;
+                    }
+                    public function decode(string $cipherText): string
+                    {
+                        $cipherArray = [];
+                        $position = 0;
+                        while(count($cipherArray) < strlen($cipherText)) {
+                            $cipherArray[] = substr($cipherText, $position, 1);
+                            $position++;
+                        }
+                        $decoderArray = [];
+                        foreach ($cipherArray as $position => $cipherChar) {
+                            $decodedArray[] = $this->getDecodedChar($cipherChar, $position);
+                        }
+                        return implode('', $decodedArray);
                     }
                 }
 
