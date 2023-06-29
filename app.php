@@ -1,6 +1,6 @@
 <?php
             
-            /*EJERCICIO 9*/
+            /*EJERCICIO 10*/
 
              
             /*
@@ -29,27 +29,23 @@
             /*
 
                 declare(strict_types=1);
-                class Bob{
-                    public function respondTo(string $message): string {
-                        $message = trim($message);
-                        // Silence
-                        if(empty($message)) {
-                            return 'Fine. Be that way!';
-                        }
-                        // Shouting
-                        if(mb_strtoupper($message) === $message && mb_strtolower($message) !== $message) {
-                            if (mb_substr($message, -1) === '?') {
-                                return 'Calm down, I know what I\'m doing!';
-                            }
-                            return 'Whoa, chill out!';
-                        }
-                        // Question
-                        if (mb_substr($message, -1) === '?') {
-                            return 'Sure.'; 
-                        }
-                        return 'Whatever.';
+                function toRna(string $dna){
+                    $newdna = (array)["G","C","T","A"];
+                    $rna = (array)["C","G","A","U"];
+                    
+                    $arrayDna = str_split($dna);
+                    $arrayRna = [];
+                    $conbinar = array_combine($newdna, $rna);
+
+                    foreach ($arrayDna as $key => $value) {
+                        array_push($arrayRna, $conbinar[$value]); 
                     }
+
+                    $nreRna = implode($arrayRna);
+                    return $nreRna;
                 }
+
+                toRna("ACGTGGTCTTAA");
 
             */
                 
